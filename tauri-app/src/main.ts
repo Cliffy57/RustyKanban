@@ -1,4 +1,3 @@
-
 export {};
 
 declare global {
@@ -68,10 +67,22 @@ function handleDrop(event: DragEvent, newStatus: "todo" | "in-progress" | "done"
   event.preventDefault();
   const taskId = parseInt(event.dataTransfer?.getData("text/plain") || "", 10);
   moveTask(taskId, newStatus);
+  if (event.target instanceof HTMLElement) {
+    event.target.classList.remove("dragover");
+  }
 }
 
 function handleDragOver(event: DragEvent) {
   event.preventDefault();
+  if (event.target instanceof HTMLElement) {
+    event.target.classList.add("dragover");
+  }
+}
+
+function handleDragLeave(event: DragEvent) {
+  if (event.target instanceof HTMLElement) {
+    event.target.classList.remove("dragover");
+  }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -91,6 +102,10 @@ window.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#todo-column")?.addEventListener("dragover", handleDragOver as EventListener);
   document.querySelector("#in-progress-column")?.addEventListener("dragover", handleDragOver as EventListener) ;
   document.querySelector("#done-column")?.addEventListener("dragover", handleDragOver as EventListener);
+
+  document.querySelector("#todo-column")?.addEventListener("dragleave", handleDragLeave as EventListener);
+  document.querySelector("#in-progress-column")?.addEventListener("dragleave", handleDragLeave as EventListener);
+  document.querySelector("#done-column")?.addEventListener("dragleave", handleDragLeave as EventListener);
 
   renderBoard();
 });

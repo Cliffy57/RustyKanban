@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rusty Kanban</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+
+  <body>
+    <main class="container">
+      <h1>Kanban App</h1>
+
+      <div class="row">
+        <a href="https://vitejs.dev" target="_blank">
+          <img src="/src/assets/vite.svg" class="logo vite" alt="Vite logo" />
+        </a>
+        <a href="https://tauri.app" target="_blank">
+          <img
+            src="/src/assets/tauri.svg"
+            class="logo tauri"
+            alt="Tauri logo"
+          />
+        </a>
+        <a href="https://www.typescriptlang.org/docs" target="_blank">
+          <img
+            src="/src/assets/typescript.svg"
+            class="logo typescript"
+            alt="typescript logo"
+          />
+        </a>
+      </div>
+      <p>Click on the Tauri logo to learn more about the framework</p>
+
+      <form class="row" id="greet-form">
+        <input id="greet-input" placeholder="Enter a name..." />
+        <button type="submit">Greet</button>
+      </form>
+      <p id="greet-msg"></p>
+
+      <ul id="tasks"></ul>
+      <form id="task-form">
+        <input id="task-input" placeholder="Enter a task..." />
+        <button type="submit">Add Task</button>
+      </form>
+       <!--section of 3 columns to display TODO, IN PROGRESS and DONE tasks-->
+      <section class="row" id="kanban-board">
+        <div class="column">
+          <h2>TODO</h2>
+          <ul id="todo-tasks"></ul>
+        </div>
+        <div class="column">
+          <h2>IN PROGRESS</h2>
+          <ul id="in-progress-tasks"></ul>
+        </div>
+        <div class="column">
+          <h2>DONE</h2>
+          <ul id="done-tasks"></ul>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

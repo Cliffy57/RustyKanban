@@ -1,16 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
-
-async function greet() {
-  if (greetMsgEl && greetInputEl) {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    greetMsgEl.textContent = await invoke("greet", {
-      name: greetInputEl.value,
-    });
-  }
-}
 async function submitTask() {
    // Retrieve the task input element value and add it to the TODO task list
     const taskInputEl = document.querySelector("#task-input") as HTMLInputElement;
@@ -26,15 +15,10 @@ async function submitTask() {
     taskItemEl.style.listStyleType = "none";
     // center the text inside the parent ul element
     taskItemEl.style.textAlign = "center";
+    invoke('submitTask' , {name: task});
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
   document.querySelector("#task-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
     submitTask();

@@ -58,7 +58,12 @@
   padding: 1em;
   margin: 1em;
 }
+
+ul {
+  list-style-type: none;
+  padding: 0;
 }
+a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;

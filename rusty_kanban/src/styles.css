@@ -127,3 +127,8 @@ button {
   }
 }
 
+[contenteditable="true"]:focus {
+  background-color: #d2fff5; /* light blue */
+  color: #000000;
+  border: 1px solid #add8e6; /* light steel blue */
+}

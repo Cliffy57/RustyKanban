@@ -75,6 +75,9 @@ a:hover {
 
 h1 {
   text-align: center;
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0.5em;
 }
 
 input,
@@ -107,6 +110,28 @@ input,
 button {
   outline: none;
 }
+
+.task {
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: text;
+  transition: all 0.2s ease;
+}
+
+.task:hover {
+  background-color: rgba(45, 121, 199, 0.1);
+  border-color: #2d79c7;
+}
+
+.task:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: #2d79c7;
+  box-shadow: 0 0 0 2px rgba(45, 121, 199, 0.2);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;

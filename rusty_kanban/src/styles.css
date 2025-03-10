@@ -137,6 +137,11 @@ button {
   cursor: move;
 }
 
+.task.selected {
+  background-color: rgba(45, 121, 199, 0.2);
+  border-color: #2d79c7;
+}
+
 .column.drag-over {
   background-color: rgba(45, 121, 199, 0.1);
   border: 2px dashed #2d79c7;
@@ -190,6 +195,11 @@ button {
   
   .menu-item:hover {
     background-color: rgba(45, 121, 199, 0.3);
+  }
+
+  .task.selected {
+    background-color: rgba(45, 121, 199, 0.4);
+    border-color: #2d79c7;
   }
 }
 

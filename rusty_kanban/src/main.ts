@@ -6,6 +6,9 @@ interface Task {
   column: 'todo' | 'in-progress' | 'done';
 }
 
+let selectedTasks = new Set<HTMLElement>();
+let lastSelectedTask: HTMLElement | null = null;
+
 async function submitTask() {
   const taskInputEl = document.querySelector("#task-input") as HTMLInputElement;
   const taskListEl = document.querySelector("#todo-tasks") as HTMLUListElement;
@@ -16,6 +19,9 @@ async function submitTask() {
   taskItemEl.textContent = task;
   taskItemEl.classList.add("task");
   taskItemEl.dataset.taskId = Date.now().toString();
+  
+  // Add click handler for selection
+  taskItemEl.addEventListener("click", (e) => handleTaskClick(e, taskItemEl));
   
   // Add context menu event
   taskItemEl.addEventListener("contextmenu", handleContextMenu);
@@ -44,16 +50,58 @@ async function submitTask() {
   await invoke("submitTask", { name: task });
 }
 
+function handleTaskClick(e: MouseEvent, taskEl: HTMLElement) {
+  if (e.shiftKey && lastSelectedTask) {
+    // Clear previous selection
+    clearTaskSelection();
+    
+    // Get all tasks between lastSelected and current
+    const tasks = Array.from(document.querySelectorAll('.task'));
+    const start = tasks.indexOf(lastSelectedTask);
+    const end = tasks.indexOf(taskEl);
+    const [lower, upper] = [Math.min(start, end), Math.max(start, end)];
+    
+    // Select all tasks in range
+    tasks.slice(lower, upper + 1).forEach(task => {
+      task.classList.add('selected');
+      selectedTasks.add(task as HTMLElement);
+    });
+  } else if (e.ctrlKey || e.metaKey) {
+    // Toggle single selection
+    taskEl.classList.toggle('selected');
+    if (taskEl.classList.contains('selected')) {
+      selectedTasks.add(taskEl);
+      lastSelectedTask = taskEl;
+    } else {
+      selectedTasks.delete(taskEl);
+      lastSelectedTask = null;
+    }
+  } else {
+    // Single selection
+    clearTaskSelection();
+    taskEl.classList.add('selected');
+    selectedTasks.add(taskEl);
+    lastSelectedTask = taskEl;
+  }
+}
+
+function clearTaskSelection() {
+  selectedTasks.forEach(task => task.classList.remove('selected'));
+  selectedTasks.clear();
+}
+
 function handleContextMenu(e: MouseEvent) {
   e.preventDefault();
-  
-  // Remove any existing context menus
-  document.querySelectorAll('.context-menu').forEach(menu => menu.remove());
-  
   const taskEl = e.currentTarget as HTMLElement;
-  const taskId = taskEl.dataset.taskId;
   
-  // Get current column by finding parent ul's id
+  // If clicking on unselected task, select only this one
+  if (!taskEl.classList.contains('selected')) {
+    clearTaskSelection();
+    taskEl.classList.add('selected');
+    selectedTasks.add(taskEl);
+  }
+  
+  // Get current column
   const currentColumn = taskEl.closest('ul')?.id.replace('-tasks', '');
   
   const menu = document.createElement('div');
@@ -66,7 +114,7 @@ function handleContextMenu(e: MouseEvent) {
     { text: 'Move to Todo', column: 'todo' },
     { text: 'Move to In Progress', column: 'in-progress' },
     { text: 'Move to Done', column: 'done' }
-  ].filter(option => option.column !== currentColumn); // Filter out current column
+  ].filter(option => option.column !== currentColumn);
   
   options.forEach(({ text, column }) => {
     const option = document.createElement('div');
@@ -74,18 +122,23 @@ function handleContextMenu(e: MouseEvent) {
     option.textContent = text;
     option.addEventListener('click', async () => {
       const targetList = document.querySelector(`#${column}-tasks`);
-      if (targetList && taskId) {
-        targetList.appendChild(taskEl);
-        await moveTask(taskId, column);
+      if (targetList) {
+        // Move all selected tasks
+        selectedTasks.forEach(async (task) => {
+          const taskId = task.dataset.taskId;
+          if (taskId) {
+            targetList.appendChild(task);
+            await moveTask(taskId, column);
+          }
+        });
       }
       menu.remove();
+      clearTaskSelection();
     });
     menu.appendChild(option);
   });
   
   document.body.appendChild(menu);
-  
-  // Close menu when clicking outside
   window.addEventListener('click', () => menu.remove(), { once: true });
 }
 

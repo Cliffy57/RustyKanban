@@ -159,9 +159,32 @@ async function update_task(taskId: string, newText: string) {
   }
 }
 
+function setupTutorial() {
+  const helpButton = document.getElementById('help-button');
+  const modal = document.getElementById('tutorial-modal');
+  const closeButton = document.getElementById('close-tutorial');
+
+  helpButton?.addEventListener('click', () => {
+    if (modal) modal.style.display = 'block';
+  });
+
+  closeButton?.addEventListener('click', () => {
+    if (modal) modal.style.display = 'none';
+  });
+
+  // Close modal when clicking outside
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#task-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
     submitTask();
   });
+  
+  setupTutorial();
 });

@@ -27,7 +27,25 @@
         <input id="task-input" placeholder="Enter a task..." />
         <button type="submit">Add Task</button>
       </form>
-       <!--section of 3 columns to display TODO, IN PROGRESS and DONE tasks-->
+      
+      <button id="help-button" class="help-button">?</button>
+      
+      <div id="tutorial-modal" class="modal">
+        <div class="modal-content">
+          <h2>How to Use the Kanban Board</h2>
+          <ul class="tutorial-list">
+            <li>Add tasks using the input field above</li>
+            <li>Click a task to select it</li>
+            <li>Shift + Click to select multiple tasks in a range</li>
+            <li>Ctrl/Cmd + Click to toggle task selection</li>
+            <li>Right-click a task to move it to another column</li>
+            <li>Click a task to edit its text</li>
+            <li>Press Enter or click outside to save changes</li>
+          </ul>
+          <button id="close-tutorial" class="close-button">Close</button>
+        </div>
+      </div>
+
       <section class="row" id="kanban-board">
         <div class="column">
           <h2>TODO</h2>

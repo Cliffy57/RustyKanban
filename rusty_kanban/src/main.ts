@@ -8,6 +8,7 @@ interface Task {
 
 let selectedTasks = new Set<HTMLElement>();
 let lastSelectedTask: HTMLElement | null = null;
+let activeMenu: HTMLElement | null = null;
 
 async function submit_task() {
   const taskInputEl = document.querySelector("#task-input") as HTMLInputElement;
@@ -92,6 +93,12 @@ function clearTaskSelection() {
 
 function handleContextMenu(e: MouseEvent) {
   e.preventDefault();
+  
+  // Remove any existing menu before creating a new one
+  if (activeMenu) {
+    activeMenu.remove();
+  }
+  
   const taskEl = e.currentTarget as HTMLElement;
   
   // If clicking on unselected task, select only this one
@@ -105,7 +112,9 @@ function handleContextMenu(e: MouseEvent) {
   const currentColumn = taskEl.closest('ul')?.id.replace('-tasks', '');
   
   const menu = document.createElement('div');
+  activeMenu = menu;  // Track the active menu
   menu.className = 'context-menu';
+  menu.dataset.menuId = `menu-${Date.now()}`; // Add unique ID to menu
   menu.style.position = 'fixed';
   menu.style.left = `${e.pageX}px`;
   menu.style.top = `${e.pageY}px`;
@@ -139,7 +148,14 @@ function handleContextMenu(e: MouseEvent) {
   });
   
   document.body.appendChild(menu);
-  window.addEventListener('click', () => menu.remove(), { once: true });
+  
+  // Only remove this specific menu when clicking outside
+  window.addEventListener('click', (e: MouseEvent) => {
+    if (!menu.contains(e.target as Node)) {
+      menu.remove();
+      activeMenu = null;
+    }
+  }, { once: true });
 }
 
 async function moveTask(taskId: string, newColumn: string) {
@@ -174,7 +190,7 @@ function setupTutorial() {
 
   // Close modal when clicking outside
   window.addEventListener('click', (e) => {
-    if (e.target === modal) {
+    if (e.target === modal && modal) {
       modal.style.display = 'none';
     }
   });

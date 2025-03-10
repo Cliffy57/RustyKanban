@@ -53,6 +53,9 @@ function handleContextMenu(e: MouseEvent) {
   const taskEl = e.currentTarget as HTMLElement;
   const taskId = taskEl.dataset.taskId;
   
+  // Get current column by finding parent ul's id
+  const currentColumn = taskEl.closest('ul')?.id.replace('-tasks', '');
+  
   const menu = document.createElement('div');
   menu.className = 'context-menu';
   menu.style.position = 'fixed';
@@ -63,7 +66,7 @@ function handleContextMenu(e: MouseEvent) {
     { text: 'Move to Todo', column: 'todo' },
     { text: 'Move to In Progress', column: 'in-progress' },
     { text: 'Move to Done', column: 'done' }
-  ];
+  ].filter(option => option.column !== currentColumn); // Filter out current column
   
   options.forEach(({ text, column }) => {
     const option = document.createElement('div');

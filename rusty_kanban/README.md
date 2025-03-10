@@ -1,7 +1,51 @@
-# Tauri + Vanilla TS
+# RustyKanban
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Typescript.
+A simple and efficient Kanban board built with Tauri and TypeScript.
 
-## Recommended IDE Setup
+![RustyKanban Logo](src/RustyKanban.png)
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+## Features
+
+- Create and manage tasks in three columns: TODO, In Progress, and Done
+- Multi-select tasks using Shift+Click or Ctrl/Cmd+Click
+- Right-click context menu for moving tasks between columns
+- Edit task text inline
+- Dark mode support
+- Built-in tutorial
+
+## Development
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or later)
+- [Rust](https://www.rust-lang.org/) (latest stable)
+- [pnpm](https://pnpm.io/) (v8 or later)
+
+### Setup
+
+1. Clone the repository
+```bash
+git clone https://github.com/YourUsername/rusty_kanban.git
+cd rusty_kanban
+```
+
+2. Install dependencies
+```bash
+pnpm install
+```
+
+3. Run the development server
+```bash
+pnpm tauri dev
+```
+
+### Building
+
+To create a production build:
+```bash
+pnpm tauri build
+```
+
+## License
+
+MIT License - see LICENSE file for details

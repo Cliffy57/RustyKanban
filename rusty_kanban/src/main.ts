@@ -9,7 +9,7 @@ interface Task {
 let selectedTasks = new Set<HTMLElement>();
 let lastSelectedTask: HTMLElement | null = null;
 
-async function submitTask() {
+async function submit_task() {
   const taskInputEl = document.querySelector("#task-input") as HTMLInputElement;
   const taskListEl = document.querySelector("#todo-tasks") as HTMLUListElement;
   const task = taskInputEl.value;
@@ -47,7 +47,7 @@ async function submitTask() {
   taskItemEl.style.listStyleType = "none";
   taskItemEl.style.textAlign = "center";
   
-  await invoke("submitTask", { name: task });
+  await invoke("submit_task", { name: task });
 }
 
 function handleTaskClick(e: MouseEvent, taskEl: HTMLElement) {
@@ -183,7 +183,7 @@ function setupTutorial() {
 window.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#task-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
-    submitTask();
+    submit_task();
   });
   
   setupTutorial();

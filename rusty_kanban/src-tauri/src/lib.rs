@@ -1,6 +1,6 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
-fn submitTask(name: &str){
+fn submit_task(name: &str){
     println!("I was invoked from JavaScript! the task is {}", name);
 }
 #[tauri::command]
@@ -19,7 +19,7 @@ fn move_task(id: &str, column: &str) {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![submitTask, update_task, move_task])
+        .invoke_handler(tauri::generate_handler![submit_task, update_task, move_task])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

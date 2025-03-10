@@ -1,10 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
 
-interface Task {
-  id: string;
-  text: string;
-  column: 'todo' | 'in-progress' | 'done';
-}
 
 let selectedTasks = new Set<HTMLElement>();
 let lastSelectedTask: HTMLElement | null = null;

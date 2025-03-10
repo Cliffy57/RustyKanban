@@ -132,6 +132,34 @@ button {
   box-shadow: 0 0 0 2px rgba(45, 121, 199, 0.2);
 }
 
+.task.dragging {
+  opacity: 0.5;
+  cursor: move;
+}
+
+.column.drag-over {
+  background-color: rgba(45, 121, 199, 0.1);
+  border: 2px dashed #2d79c7;
+}
+
+.context-menu {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.menu-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: rgba(45, 121, 199, 0.1);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
@@ -149,6 +177,19 @@ button {
   }
   button:active {
     background-color: #0f0f0f69;
+  }
+
+  .context-menu {
+    background: #2f2f2f;
+    border-color: #444;
+  }
+  
+  .menu-item {
+    color: #f6f6f6;
+  }
+  
+  .menu-item:hover {
+    background-color: rgba(45, 121, 199, 0.3);
   }
 }
 

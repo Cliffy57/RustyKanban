@@ -64,10 +64,7 @@ jobs:
         cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./rusty_kanban/src-tauri/cobertura.xml
-        working-directory: ./rusty_kanban/src-tauri
-        fail_ci_if_error: true
-        verbose: true
+        slug: Cliffy57/RustyKanban

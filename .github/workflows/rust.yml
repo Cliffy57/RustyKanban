@@ -60,11 +60,13 @@ jobs:
       run: cargo install cargo-tarpaulin
 
     - name: Generate coverage report
-      run: cargo tarpaulin --out xml
+      run: |
+        cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml --output-dir ./coverage
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./cobertura.xml
+        files: ./coverage/cobertura.xml
         fail_ci_if_error: true
+        verbose: true

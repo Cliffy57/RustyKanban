@@ -61,12 +61,13 @@ jobs:
 
     - name: Generate coverage report
       run: |
-        cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml --output-dir ./coverage
+        cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./coverage/cobertura.xml
+        files: ./rusty_kanban/src-tauri/cobertura.xml
+        working-directory: ./rusty_kanban/src-tauri
         fail_ci_if_error: true
         verbose: true

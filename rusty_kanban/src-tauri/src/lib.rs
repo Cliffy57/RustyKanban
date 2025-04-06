@@ -1,64 +1,30 @@
-#[derive(Debug, Clone, PartialEq)]
-pub struct KanbanCard {
-    pub id: String,
-    pub title: String,
-    pub description: String,
-    pub status: String,
+// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+#[tauri::command]
+fn submit_task(name: &str) {
+    println!("I was invoked from JavaScript! the task is {}", name);
 }
 
-pub struct KanbanBoard {
-    cards: Vec<KanbanCard>,
+#[tauri::command]
+fn update_task(id: &str, text: String) {
+    println!("Updating task {} with new text: {}", id, text);
+    // Implement actual logic to update the task in your data store (e.g., SQLite, file, etc.)
 }
 
-impl KanbanBoard {
-    pub fn new() -> Self {
-        KanbanBoard { cards: Vec::new() }
-    }
-
-    pub fn add_card(&mut self, card: KanbanCard) {
-        self.cards.push(card);
-    }
-
-    pub fn get_cards(&self) -> &Vec<KanbanCard> {
-        &self.cards
-    }
+#[tauri::command]
+fn move_task(id: &str, column: &str) {
+    println!("Moving task {} to column {}", id, column);
+    // You can implement persistent storage here if needed
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_new_board() {
-        let board = KanbanBoard::new();
-        assert!(board.cards.is_empty());
-    }
-
-    #[test]
-    fn test_add_card() {
-        let mut board = KanbanBoard::new();
-        let card = KanbanCard {
-            id: "1".to_string(),
-            title: "Test Card".to_string(),
-            description: "Test Description".to_string(),
-            status: "Todo".to_string(),
-        };
-        board.add_card(card.clone());
-        assert_eq!(board.cards.len(), 1);
-        assert_eq!(board.cards[0], card);
-    }
-
-    #[test]
-    fn test_get_cards() {
-        let mut board = KanbanBoard::new();
-        let card = KanbanCard {
-            id: "1".to_string(),
-            title: "Test Card".to_string(),
-            description: "Test Description".to_string(),
-            status: "Todo".to_string(),
-        };
-        board.add_card(card.clone());
-        assert_eq!(board.get_cards().len(), 1);
-        assert_eq!(&board.cards[0], &card);
-    }
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+pub fn run() {
+    tauri::Builder::default()
+        .plugin(tauri_plugin_opener::init())
+        .invoke_handler(tauri::generate_handler![
+            submit_task,
+            update_task,
+            move_task
+        ])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
 }

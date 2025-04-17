@@ -5,7 +5,7 @@ A simple and efficient Kanban board built with Tauri and TypeScript.
 ![RustyKanban Logo](src/RustyKanban.png)
 
 ## Features
-
+ 
 - Create and manage tasks in three columns: TODO, In Progress, and Done
 - Multi-select tasks using Shift+Click or Ctrl/Cmd+Click
 - Right-click context menu for moving tasks between columns
